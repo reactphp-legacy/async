@@ -11,23 +11,8 @@ use React\Promise\PromiseInterface;
  */
 final class FiberMap
 {
-    /** @var array<int,bool> */
-    private static array $status = [];
-
     /** @var array<int,PromiseInterface<T>> */
     private static array $map = [];
-
-    /** @param \Fiber<mixed,mixed,mixed,mixed> $fiber */
-    public static function register(\Fiber $fiber): void
-    {
-        self::$status[\spl_object_id($fiber)] = false;
-    }
-
-    /** @param \Fiber<mixed,mixed,mixed,mixed> $fiber */
-    public static function cancel(\Fiber $fiber): void
-    {
-        self::$status[\spl_object_id($fiber)] = true;
-    }
 
     /**
      * @param \Fiber<mixed,mixed,mixed,mixed> $fiber
@@ -40,9 +25,8 @@ final class FiberMap
 
     /**
      * @param \Fiber<mixed,mixed,mixed,mixed> $fiber
-     * @param PromiseInterface<T> $promise
      */
-    public static function unsetPromise(\Fiber $fiber, PromiseInterface $promise): void
+    public static function unsetPromise(\Fiber $fiber): void
     {
         unset(self::$map[\spl_object_id($fiber)]);
     }
@@ -54,11 +38,5 @@ final class FiberMap
     public static function getPromise(\Fiber $fiber): ?PromiseInterface
     {
         return self::$map[\spl_object_id($fiber)] ?? null;
-    }
-
-    /** @param \Fiber<mixed,mixed,mixed,mixed> $fiber */
-    public static function unregister(\Fiber $fiber): void
-    {
-        unset(self::$status[\spl_object_id($fiber)], self::$map[\spl_object_id($fiber)]);
     }
 }

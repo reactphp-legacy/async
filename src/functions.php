@@ -200,16 +200,13 @@ function async(callable $function): callable
                     $reject($exception);
                 } finally {
                     assert($fiber instanceof \Fiber);
-                    FiberMap::unregister($fiber);
+                    FiberMap::unsetPromise($fiber);
                 }
             });
-
-            FiberMap::register($fiber);
 
             $fiber->start();
         }, function () use (&$fiber): void {
             assert($fiber instanceof \Fiber);
-            FiberMap::cancel($fiber);
             $promise = FiberMap::getPromise($fiber);
             if ($promise instanceof PromiseInterface && \method_exists($promise, 'cancel')) {
                 $promise->cancel();
@@ -294,9 +291,9 @@ function await(PromiseInterface $promise): mixed
     $lowLevelFiber = \Fiber::getCurrent();
 
     $promise->then(
-        function (mixed $value) use (&$resolved, &$resolvedValue, &$fiber, $lowLevelFiber, $promise): void {
+        function (mixed $value) use (&$resolved, &$resolvedValue, &$fiber, $lowLevelFiber): void {
             if ($lowLevelFiber !== null) {
-                FiberMap::unsetPromise($lowLevelFiber, $promise);
+                FiberMap::unsetPromise($lowLevelFiber);
             }
 
             /** @var ?\Fiber<mixed,mixed,mixed,mixed> $fiber */
@@ -309,9 +306,9 @@ function await(PromiseInterface $promise): mixed
 
             $fiber->resume($value);
         },
-        function (mixed $throwable) use (&$rejected, &$rejectedThrowable, &$fiber, $lowLevelFiber, $promise): void {
+        function (mixed $throwable) use (&$rejected, &$rejectedThrowable, &$fiber, $lowLevelFiber): void {
             if ($lowLevelFiber !== null) {
-                FiberMap::unsetPromise($lowLevelFiber, $promise);
+                FiberMap::unsetPromise($lowLevelFiber);
             }
 
             if (!$throwable instanceof \Throwable) {
