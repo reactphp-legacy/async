@@ -26,7 +26,7 @@ class AwaitTest extends TestCase
         }
 
         $promise = new Promise(function ($_, $reject) {
-            $reject(false);
+            $reject(false); // @phpstan-ignore-line
         });
 
         $this->expectException(\UnexpectedValueException::class);
@@ -41,7 +41,7 @@ class AwaitTest extends TestCase
         }
 
         $promise = new Promise(function ($_, $reject) {
-            $reject(null);
+            $reject(null); // @phpstan-ignore-line
         });
 
         $this->expectException(\UnexpectedValueException::class);
@@ -278,7 +278,7 @@ class AwaitTest extends TestCase
         gc_collect_cycles();
 
         $promise = new Promise(function ($_, $reject) {
-            $reject(null);
+            $reject(null); // @phpstan-ignore-line
         });
         try {
             React\Async\await($promise);
