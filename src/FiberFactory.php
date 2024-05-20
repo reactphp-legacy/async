@@ -22,7 +22,7 @@ final class FiberFactory
         return (self::factory())();
     }
 
-    public static function factory(\Closure $factory = null): \Closure
+    public static function factory(?\Closure $factory = null): \Closure
     {
         if ($factory !== null) {
             self::$factory = $factory;
