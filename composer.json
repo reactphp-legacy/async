@@ -28,7 +28,7 @@
     "require": {
         "php": ">=8.1",
         "react/event-loop": "^1.2",
-        "react/promise": "^3.0 || ^2.8 || ^1.2.1"
+        "react/promise": "^3.2 || ^2.8 || ^1.2.1"
     },
     "require-dev": {
         "phpstan/phpstan": "1.10.39",
