@@ -1,9 +1,20 @@
 # Changelog
 
+## 4.3.0 (2024-06-04)
+
+*   Feature: Improve performance by avoiding unneeded references in `FiberMap`.
+    (#88 by @clue)
+
+*   Feature: Improve PHP 8.4+ support by avoiding implicitly nullable type declarations.
+    (#87 by @clue)
+
+*   Improve type safety for test environment.
+    (#86 by @SimonFrings)
+
 ## 4.2.0 (2023-11-22)
 
 *   Feature: Add Promise v3 template types for all public functions.
-    (#40 by @WyriHaximus)
+    (#40 by @WyriHaximus and @clue)
 
     All our public APIs now use Promise v3 template types to guide IDEs and static
     analysis tools (like PHPStan), helping with proper type usage and improving
@@ -24,7 +35,7 @@
 ## 4.1.0 (2023-06-22)
 
 *   Feature: Add new `delay()` function to delay program execution.
-    (#69 by @clue)
+    (#69 and #78 by @clue)
 
     ```php
     echo 'a';
